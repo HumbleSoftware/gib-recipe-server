@@ -16,7 +16,8 @@ function serverTask (options) {
   return function () {
     browserSync.init({
       port: options.port,
-      server: options.root
+      server: options.root,
+      open: false
     });
   }
 }
