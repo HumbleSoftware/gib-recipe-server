@@ -2,9 +2,15 @@
 
 // Module:
 var browserSync = require('browser-sync');
+var bus         = null;
 
 module.exports = {
-  browserSync: browserSync,
+  refresh: function () {
+    return browserSync.reload();
+  },
+  refreshStream: function () {
+    return browserSync.stream();
+  },
   serverTask: serverTask
 }
 
@@ -30,4 +36,8 @@ function config (options) {
   options.root = options.root || './build';
 
   return options;
+}
+
+function register (b) {
+  bus = b;
 }
