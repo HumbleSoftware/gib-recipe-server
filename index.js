@@ -11,12 +11,21 @@ module.exports = {
   refreshStream: function () {
     return browserSync.stream();
   },
+  register: register,
   serverTask: serverTask
 }
 
 function serverTask (options) {
 
   options = config(options);
+
+  // Bus:
+  if (bus) {
+    bus.on('notify-error', function (message, title) {
+      var notify = '<b>' + title + ':</b> ' + message;
+      browserSync.notify(notify, options.notifyDuration)
+    });
+  }
 
   // Task:
   return function () {
@@ -31,9 +40,10 @@ function serverTask (options) {
 function config (options) {
 
   // Defaults:
-  options      = options || {};
-  options.port = options.port || 8080;
-  options.root = options.root || './build';
+  options                = options || {};
+  options.port           = options.port || 8080;
+  options.root           = options.root || './build';
+  options.notifyDuration = options.notifyDuration || 10000;
 
   return options;
 }
