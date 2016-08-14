@@ -32,6 +32,7 @@ function serverTask (options) {
     browserSync.init({
       port: options.port,
       server: options.root,
+      middleware: options.middleware,
       open: false
     });
   }
@@ -44,6 +45,7 @@ function config (options) {
   options.port           = options.port || 8080;
   options.root           = options.root || './build';
   options.notifyDuration = options.notifyDuration || 10000;
+  options.middleware     = options.middleware || [];
 
   return options;
 }
