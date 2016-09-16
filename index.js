@@ -29,12 +29,17 @@ function serverTask (options) {
 
   // Task:
   return function () {
-    browserSync.init({
+    var config = {
       port: options.port,
-      server: options.root,
       middleware: options.middleware,
       open: false
-    });
+    };
+    if (options.proxy) {
+      config.proxy = options.proxy;
+    } else {
+      config.server = options.root;
+    }
+    browserSync.init(config);
   }
 }
 
@@ -43,6 +48,7 @@ function config (options) {
   // Defaults:
   options                = options || {};
   options.port           = options.port || 8080;
+  options.proxy          = options.proxy || null;
   options.root           = options.root || './build';
   options.notifyDuration = options.notifyDuration || 10000;
   options.middleware     = options.middleware || [];
